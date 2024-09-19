@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Adivinar un Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #4a90e2;
+            font-size: 2.5em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        #game-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 1.1em;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>¡Adivina el Número!</h1>
+        <p>Adivina el número secreto entre 1 y 100.</p>
+        
+        <label for="numeroUsuario">Introduce tu número:</label>
+        <input type="number" id="numeroUsuario" min="1" max="100" placeholder="Tu número...">
+        <button onclick="iniciarJuego()">Enviar</button>
+        
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        let numeroCorrecto = Math.floor(Math.random() * 100) + 1;
+
+        // Función que lee el número introducido por el usuario y valida que esté entre 1 y 100
+        function leerNumero() {
+            const numeroUsuario = parseInt(document.getElementById("numeroUsuario").value);
+            if (isNaN(numeroUsuario) || numeroUsuario < 1 || numeroUsuario > 100) {
+                return -1; // Valor inválido
+            }
+            return numeroUsuario;
+        }
+
+        // Función que comprueba si el número es correcto
+        function comprobarValor(numeroUsuario, numeroCorrecto) {
+            if (numeroUsuario === numeroCorrecto) {
+                return 0;  // Número correcto
+            } else if (numeroUsuario > numeroCorrecto) {
+                return 1;  // El número es mayor
+            } else {
+                return -1; // El número es menor
+            }
+        }
+
+        // Función principal del juego
+        function iniciarJuego() {
+            const numeroUsuario = leerNumero();
+            const resultado = document.getElementById("resultado");
+
+            if (numeroUsuario === -1) {
+                resultado.textContent = "Por favor, introduce un número válido entre 1 y 100.";
+                resultado.style.color = "red";
+                return;
+            }
+
+            const comprobacion = comprobarValor(numeroUsuario, numeroCorrecto);
+
+            if (comprobacion === 0) {
+                resultado.textContent = "¡Felicidades! Has adivinado el número correcto: " + numeroCorrecto;
+                resultado.style.color = "green";
+            } else if (comprobacion === 1) {
+                resultado.textContent = "El número es mayor que el correcto. Inténtalo de nuevo.";
+                resultado.style.color = "orange";
+            } else {
+                resultado.textContent = "El número es menor que el correcto. Inténtalo de nuevo.";
+                resultado.style.color = "orange";
+            }
+        }
+    </script>
+</body>
+</html>
